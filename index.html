@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop_watch</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="watch">
+            <span class="value" id="hr">00</span> :
+            <span class="value" id="min">00</span> :
+            <span class="value" id="sec">00</span>
+        </div>
+        <div class="btns">
+            <button class="btn" id="start">Start</button>
+            <button class="btn" id="stop">Stop</button>
+            <button class="btn" id="reset">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        // Get the stopwatch elements
+        const hrElement = document.getElementById('hr');
+        const minElement = document.getElementById('min');
+        const secElement = document.getElementById('sec');
+
+        // Initialize the stopwatch values
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+
+        // Variable to hold the setInterval ID
+        let intervalId;
+
+        // Function to start the stopwatch
+        function startStopwatch() {
+            intervalId = setInterval(updateStopwatch, 1000);
+        }
+
+        // Function to update the stopwatch
+        function updateStopwatch() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            // Update the stopwatch display
+            hrElement.textContent = formatTime(hours);
+            minElement.textContent = formatTime(minutes);
+            secElement.textContent = formatTime(seconds);
+        }
+
+        // Function to format time values with leading zeros
+        function formatTime(time) {
+            return time.toString().padStart(2, '0');
+        }
+
+        // Function to stop the stopwatch
+        function stopStopwatch() {
+            clearInterval(intervalId);
+        }
+
+        // Function to reset the stopwatch
+        function resetStopwatch() {
+            stopStopwatch();
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            hrElement.textContent = '00';
+            minElement.textContent = '00';
+            secElement.textContent = '00';
+        }
+
+        // Attach event listeners to the buttons
+        document.getElementById('start').addEventListener('click', startStopwatch);
+        document.getElementById('stop').addEventListener('click', stopStopwatch);
+        document.getElementById('reset').addEventListener('click', resetStopwatch);
+    </script>
+
+</body>
+</html>
